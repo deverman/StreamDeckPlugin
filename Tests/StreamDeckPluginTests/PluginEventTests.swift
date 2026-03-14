@@ -179,6 +179,38 @@ final class PluginEventTests: XCTestCase {
 
 	}
 
+	func testDeviceDidConnectVirtualStreamDeck() async {
+		class EventTestPlugin: TestPlugin {
+			override func deviceDidConnect(_ device: String, deviceInfo: DeviceInfo) {
+				XCTAssertEqual(device, "virtualDeviceDidConnect")
+				XCTAssertEqual(deviceInfo.name, "Virtual Stream Deck 1")
+				XCTAssertEqual(deviceInfo.type, .virtualStreamDeck)
+				eventExp.fulfill()
+			}
+		}
+
+		let event = ReceivableEvent.EventKey.deviceDidConnect
+		let data = Data(
+			"""
+			{
+			  "device": "virtualDeviceDidConnect",
+			  "deviceInfo": {
+			    "name": "Virtual Stream Deck 1",
+			    "size": {
+			      "columns": 1,
+			      "rows": 4
+			    },
+			    "type": 11
+			  },
+			  "event": "deviceDidConnect"
+			}
+			""".utf8
+		)
+
+		let delegate = EventTestPlugin(expectation(description: #function))
+		await fulfillment(of: event, data: data, plugin: delegate)
+	}
+
 	func testDeviceDidDisconnect() async {
 		class EventTestPlugin: TestPlugin {
 			override func deviceDidDisconnect(_ device: String) {
