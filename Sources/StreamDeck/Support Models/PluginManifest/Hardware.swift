@@ -43,6 +43,7 @@ public enum DeviceType: Int, Codable, CustomStringConvertible {
 	case plus = 7
 	case scufController = 8
 	case streamDeckNeo = 9
+	case virtualStreamDeck = 11
 
 	public var description: String {
 		switch self {
@@ -66,6 +67,8 @@ public enum DeviceType: Int, Codable, CustomStringConvertible {
 			"SCUF Controller"
 		case .streamDeckNeo:
 			"Stream Deck Neo"
+		case .virtualStreamDeck:
+			"Virtual Stream Deck"
 		}
 	}
 	
