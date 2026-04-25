@@ -12,12 +12,11 @@ import OSLog
 fileprivate let log = Logger(subsystem: "Counter Plugin", category: "Decrement")
 
 class DecrementAction: KeyAction {
-
 	typealias Settings = NoSettings
 
 	static var name: String = "Decrement"
 
-	static var uuid: String = "counter.decrement"
+	static var uuid: String = "com.example.counter.decrement"
 
 	static var icon: String = "Icons/actionIcon"
 
@@ -57,5 +56,4 @@ class DecrementAction: KeyAction {
 		log.log("Global settings changed, updating title with \(self.count)")
 		setTitle(to: "\(count)", target: nil, state: nil)
 	}
-
 }

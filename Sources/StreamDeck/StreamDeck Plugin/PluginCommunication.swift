@@ -107,7 +107,7 @@ public final actor PluginCommunication {
 	}
 
 	/// Remove an instance of an action from a `willDisappear` event.
-	/// - Parameter event: The event with information about the instance.
+	/// - Parameter context: An opaque value identifying the instance's action.
 	public func removeInstance(_ context: String?) {
 		guard let context else { return }
 		log.log("Removing instance of '\(context, privacy: .public)'")
@@ -264,6 +264,7 @@ public final actor PluginCommunication {
 	///
 	/// - Parameters:
 	///   - eventType: The event type.
+	///   - action: The action from which the event originates.
 	///   - context: The context token.
 	///   - payload: The payload for the action.
 	/// - Throws: Errors while encoding the data to JSON.
@@ -296,6 +297,7 @@ public final actor PluginCommunication {
 	///
 	/// - Parameters:
 	///   - eventType: The event type.
+	///   - action: The action from which the event originates.
 	///   - context: The context token.
 	///   - payload: The payload for the action.
 	/// - Throws: Errors while encoding the data to JSON.
@@ -448,6 +450,12 @@ public final actor PluginCommunication {
 
 			log.info("Forwarding \(event, privacy: .public) to PluginDelegate")
 			plugin.deviceDidDisconnect(action.device)
+
+		case .deviceDidChange:
+			let action = try decoder.decode(DeviceChangeEvent.self, from: data)
+
+			log.info("Forwarding \(event, privacy: .public) to PluginDelegate")
+			plugin.deviceDidChange(action.device, deviceInfo: action.deviceInfo)
 
 		case .systemDidWakeUp:
 

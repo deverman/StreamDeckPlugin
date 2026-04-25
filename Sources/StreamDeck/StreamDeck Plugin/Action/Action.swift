@@ -80,6 +80,11 @@ public protocol Action {
 	///
 	/// True by default.
 	static var supportedInMultiActions: Bool? { get }
+	
+	/// Determines whether the action is available to users when they are creating key logic actions. Default is `true`.
+	///
+	/// - Note: Available from Stream Deck 7.0.
+	static var supportedInKeyLogicActions: Bool? { get }
 
 	/// The string displayed as tooltip when the user leaves the mouse over your action in the actions list.
 	static var tooltip: String? { get }
@@ -96,6 +101,11 @@ public protocol Action {
 	///
 	/// Default is `false`.
 	static var disableAutomaticStates: Bool? { get }
+	
+	/// Link to the actions's support website.
+	///
+	/// - Note: Available from Stream Deck 6.9.
+	static var supportURL: String? { get }
 
 	// MARK: - Instance Properties
 	
@@ -221,6 +231,7 @@ public protocol Action {
 	/// - Parameters:
 	///   - device: An opaque value identifying the device.
 	///   - payload: The event payload sent by the server.
+	///   - longPress: Whether or not the key was held down once release
 	func dialUp(device: String, payload: EncoderPressEvent<Settings>, longPress: Bool)
 	
 	/// When the user holds a dial down.
@@ -241,7 +252,7 @@ public protocol Action {
 	/// When the user changes the title or title parameters of the instance of an action, the plugin will receive a `titleParametersDidChange` event.
 	/// - Parameters:
 	///   - device: An opaque value identifying the device.
-	///   - payload: The event payload sent by the server.
+	///   - info: The updated title parameters.
 	func titleParametersDidChange(device: String, info: TitleInfo<Settings>)
 	
 	/// The plugin will receive a `propertyInspectorDidAppear` event when the Property Inspector appears.
